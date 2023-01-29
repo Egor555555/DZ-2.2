@@ -1,0 +1,39 @@
+#include <windows.h>
+#include "pt4.h"
+using namespace std;
+
+void regroup(PNode& start)
+{
+	PNode finish = start, temp = start;
+	if (start->Next != NULL) start = start->Next;
+	else return;
+	int n = 1;
+	while (finish->Next != NULL)
+	{
+		finish = finish->Next;
+		n++;
+	}
+	n = n / 2 + n % 2;
+	for (int i = 0; i < n; i++)
+	{
+		PNode temp_p = temp;
+		temp = temp->Next->Next;
+
+		temp_p->Next->Prev = temp_p->Prev;
+		if (temp_p->Prev != NULL) temp_p->Prev->Next = temp_p->Next;
+		temp_p->Next = NULL;
+		finish->Next = temp_p;
+		temp_p->Prev = finish;
+
+		finish = finish->Next;
+	}
+}
+
+void Solve()
+{
+	Task("ListWork43");
+	PNode start;
+	pt >> start;
+	regroup(start);
+	pt << start;
+}
